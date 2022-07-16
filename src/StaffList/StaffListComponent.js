@@ -48,7 +48,7 @@ class StaffListComponent extends Component {
       );
   }
 
-//  dữ liệu hiển thị column
+
   number(eventKey) {
     this.setState({
       selectEventKey: eventKey,
