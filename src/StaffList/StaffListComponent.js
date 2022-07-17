@@ -12,7 +12,7 @@ class StaffListComponent extends Component {
     };
   }
 
-  
+  // hàm gọi nhận dữ liệu
   onstaffs(staffs) {
     this.setState({
       selectstaffs: staffs,
