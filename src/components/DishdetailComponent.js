@@ -32,8 +32,9 @@ class DishDetail extends Component {
 {comments.map((comment)=>{
   return (
     <li key={comment.id}>
+    <p>{comment.comment}</p>
       <p>
-        -- {comment.comment},{" "}
+        -- {comment.author},{" "}
         {new Intl.DateTimeFormat("en-US", {
           year: "numeric",
           month: "short",
