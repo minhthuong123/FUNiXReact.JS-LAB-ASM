@@ -1,0 +1,80 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.heading {
+  background-image: url(https://i0.wp.com/ashleytimber.co.uk/wp-content/uploads/2018/12/page-header-background-2.jpg?w=1920&ssl=1) !important;
+  background-size: 100% !important;
+}
+.App-link {
+  color: #61dafb;
+}
+.div__media {
+  text-decoration: none !important;
+  display: inline-flex;
+  padding-right: 20px;
+  box-sizing: border-box;
+}
+.row-header {
+  margin: 0px auto;
+  padding: 0px auto;
+}
+
+.row-content {
+  margin: 0px auto;
+  padding: 50px 0px 50px 0px;
+  border-bottom: 1px ridge;
+  min-height: 400px;
+}
+
+.footer {
+}
+.jumbotron {
+  padding: 70px 30px 70px 30px;
+  margin: 0px auto;
+  background: #9575cd;
+  color: floralwhite;
+}
+
+address {
+  font-size: 80%;
+  margin: 0px;
+  color: #0f0f0f;
+}
+
+.navbar-dark {
+  background-color: #512da8;
+  margin: 0px;
+  color: white;
+}
+.hover:hover {
+  cursor: pointer;
+  opacity: 0.3;
+}
+.AppContainer {
+  position: fixed;
+  left: 0;
+  margin: 0 auto;
+  text-align: left;
+  overflow: auto;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+}
+.AppFooter {
+  background-color: #4ac8ee;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: auto;
+  width: 100vw;
+  padding-top: 40px;
+}
+.containerPB{
+margin-bottom: 100%;
+}
+.containerTT{
+margin-bottom: 100%;
+}
