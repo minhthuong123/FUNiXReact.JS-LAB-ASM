@@ -7,7 +7,7 @@ import {
   NavDropdown,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
-//bảng lương
+/
 class BangLuong extends Component {
   constructor(props) {
     super(props);
