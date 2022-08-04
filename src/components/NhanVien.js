@@ -43,7 +43,7 @@ nhanvien = props.staffs.map((staffs) => {
     nhanvien = props.search.map((search) => {
       return (
         <div
-          className="col-md-2 col-sm-4 col-xs-6 hover"
+          className="col-md-2 col-sm-12 col-xs-6 hover"
           key={search.id}
           style={{ marginBottom: "20px" }}
         >
@@ -62,7 +62,10 @@ nhanvien = props.staffs.map((staffs) => {
           <hr />
         </div>
       </div>
-      <div className="row">{nhanvien}</div>
+
+      <div className="row" >
+        {nhanvien}
+      </div>
     </div>
   );
 };

@@ -34,7 +34,6 @@ const ThongTinNV = ({ staffs }) => {
               </div>
               <div className="row col-md-9 col-sm-8 col-xs-12">
                 <Card>
-                  <Card.Header>THÔNG TIN NHÂN VIÊN</Card.Header>
                   <Card.Body>
                     <Card.Title>Họ và tên: {value.name}</Card.Title>
                     <Card.Text>

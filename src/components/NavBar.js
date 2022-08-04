@@ -28,7 +28,7 @@ class NavBar extends Component {
   handleSearch = () => {
     this.setState({
       searchNV: this.state.staffs.filter(
-        (search) => search.name.toLowerCase() === this.state.search.toLowerCase()
+        (search) => search.name.toLowerCase().indexOf(this.state.search.toLowerCase()) >-1
       ),
     });
   };
