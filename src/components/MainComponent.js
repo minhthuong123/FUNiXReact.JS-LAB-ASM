@@ -16,11 +16,22 @@ class Main extends Component {
       STAFFS: STAFFS,
     };
   }
+
   addNewjob = (job) => {
     this.setState({
       STAFFS: [...this.state.STAFFS, job],
     });
+    localStorage.setItem("job", JSON.stringify([...this.state.STAFFS, job]));
   };
+  componentDidMount() {
+    let tanks = localStorage.getItem("job")
+      ? JSON.parse(localStorage.getItem("job"))
+      : this.state.STAFFS;
+    this.setState({
+      STAFFS: tanks,
+    });
+  }
+
   onDishSelect(dishId) {
     this.setState({ selectedDish: dishId });
   }

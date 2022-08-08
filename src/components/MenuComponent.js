@@ -1,8 +1,17 @@
 import React, { Component } from "react";
-import { Card, CardImg, CardBody, CardTitle } from "reactstrap";
+import {
+  Card,
+  CardImg,
+  CardBody,
+  CardTitle,
+  FormFeedback,
+  Row,
+  Label,
+} from "reactstrap";
 import { Link } from "react-router-dom";
 import { Button, Col, Form, FormGroup, Nav, NavItem } from "react-bootstrap";
 import { Input, Modal, ModalBody, ModalHeader } from "reactstrap";
+import { Control, LocalForm, Errors } from "react-redux-form";
 
 class Menu extends Component {
   constructor() {
@@ -10,48 +19,20 @@ class Menu extends Component {
     this.state = {
       searchNV: "",
       isModalOpen: false,
-      id: "",
-      name: "",
-      doB: "",
-      salaryScale: "",
-      startDate: "",
-      department: "Sale",
-      annualLeave: "",
-      overTime: "",
-      image: "",
     };
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
 
     this.toggleModal = this.toggleModal.bind(this);
   }
 
- 
-  handleSubmit(event) {
- const themNV = {
-   id: Math.trunc(Math.random() * 1000) + 1,
-   name: this.state.name,
-   doB: this.state.doB,
-   salaryScale: this.state.salaryScale == "" ? 1 : this.state.salaryScale,
-   startDate: this.state.startDate,
-   department: {name:this.state.department},
-   annualLeave: this.state.annualLeave == "" ? 0 : this.state.annualLeave,
-   overTime: this.state.overTime == "" ? 0 : this.state.overTime,
-   image: "/assets/images/alberto.png",
- };
- this.props.addNewjob(themNV)
-    event.preventDefault();
+  handleSubmit(values) {
+    let image = {
+      department: { name: values.departmentS },
+      id: Math.trunc(Math.random() * 1000) + 1,
+      image: "/assets/images/alberto.png",
+    };
+    let themNV = { ...values, ...image };
+    this.props.addNewjob(themNV);
   }
-  handleInputChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value,
-    });
-  }
-
   toggleModal() {
     this.setState({
       isModalOpen: !this.state.isModalOpen,
@@ -69,6 +50,14 @@ class Menu extends Component {
   };
 
   render() {
+    
+    const required = (val) => val && val.length;
+    const maxLength = (len) => (val) => !val || val.length <= len;
+    const minLength = (len) => (val) => val && val.length >= len;
+    const isNumber = (val) => val >= 1;
+    const isNumberS = (val) => val >= 0;
+    const option = (val) => val && val.length;
+
     let searchnv =
       this.state.searchNV == "" ? this.props.dishes : this.state.searchNV;
     const menu = searchnv.map((dish) => {
@@ -96,26 +85,17 @@ class Menu extends Component {
 
     return (
       <div className="container">
-        <div
-          className="row"
-
-        >
+        <div className="row">
           <div
-            className="col-12"
+            className="col-md-12 col-sm-12 "
             style={{
               display: "inline-flex",
-              marginTop: "10px",
-              marginRight: "20px",
             }}
           >
-            <div
-              style={{
-                marginRight: "90px",
-              }}
-            >
+            <div className="col-md-3 col-sm-3 ">
               <h4>Nhân Viên</h4>
             </div>
-            <div>
+            <div className="col-md-3 col-sm-3 ">
               <Nav navbar>
                 <NavItem>
                   <Button outline onClick={this.toggleModal}>
@@ -124,13 +104,12 @@ class Menu extends Component {
                 </NavItem>
               </Nav>
             </div>
-            <div>
+            <div className="col-md-6 col-sm-6 ">
               <FormGroup
                 style={{
-                  marginLeft: "600px",
-                  display: "inline-flex",
                   float: "right",
-                  width: "400px",
+                  display: "inline-flex",
+                  width: "300px",
                 }}
               >
                 <Input
@@ -150,155 +129,223 @@ class Menu extends Component {
               </FormGroup>
             </div>
           </div>
-          <div>
+          <div className="col-md-12 col-sm-12 col-xs-12">
             <React.Fragment>
               <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
                 <ModalHeader toggle={this.toggleModal}>
                   Thêm Nhân Viên
                 </ModalHeader>
                 <ModalBody>
-                  <Form onSubmit={this.handleSubmit}>
-                    <FormGroup
-                      className="row"
-                      controlId="formPlaintextPassword"
-                      style={{ marginBottom: "10px" }}
-                    >
-                      <Form.Label column sm="4">
+                  <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
+                    <Row className="form-group">
+                      <Label htmlFor="name" md={3}>
                         Tên
-                      </Form.Label>
-                      <Col sm="8">
-                        <Input
+                      </Label>
+                      <Col md={9}>
+                        <Control.text
+                          model=".name"
+                          id="formthem"
                           name="name"
-                          type="text"
-                          placeholder="name"
-                          // innerRef={(input) => (this.username = input)}
-                          value={this.state.username}
-                          onChange={this.handleInputChange}
+                          placeholder="Tên"
+                          className="form-control"
+                          validators={{
+                            required,
+                            minLength: minLength(3),
+                            maxLength: maxLength(15),
+                          }}
+                        />
+                        <Errors
+                          className="text-danger"
+                          model=".name"
+                          show="touched"
+                          messages={{
+                            required: `Yêu cầu nhập `,
+                            minLength: "Yêu cầu nhập nhiều hơn 2 ký tự",
+                            maxLength: "Yêu cầu nhập ít hơn 30 ký tự",
+                          }}
                         />
                       </Col>
-                    </FormGroup>
-                    <Form.Group
-                      className="row"
-                      controlId="formPlaintextPassword"
-                      style={{ marginBottom: "10px" }}
-                    >
-                      <Form.Label column sm="4">
+                    </Row>
+                    <Row className="form-group">
+                      <Label htmlFor="doB" md={3}>
                         Ngày sinh
-                      </Form.Label>
-                      <Col sm="8">
-                        <Input
+                      </Label>
+                      <Col md={9}>
+                        <Control.text
+                          type="date"
+                          model=".doB"
+                          id="formthem"
                           name="doB"
-                          type="date"
-                          // innerRef={(input) => (this.Dateofbirth = input)}
-                          value={this.state.doB}
-                          onChange={this.handleInputChange}
+                          placeholder="Ngày sinh"
+                          className="form-control"
+                          validators={{
+                            required,
+                            minLength: minLength(0),
+                          }}
+                        />
+                        <Errors
+                          className="text-danger"
+                          model=".doB"
+                          show="touched"
+                          messages={{
+                            required: `Yêu cầu nhập `,
+                            minLength: "Yêu cầu nhập ngày tháng năm sinh",
+                          }}
                         />
                       </Col>
-                    </Form.Group>
-                    <Form.Group
-                      className="row"
-                      controlId="formPlaintextPassword"
-                      style={{ marginBottom: "10px" }}
-                    >
-                      <Form.Label column sm="4">
+                    </Row>
+                    <Row className="form-group">
+                      <Label htmlFor="startDate" md={3}>
                         Ngày vào công ty
-                      </Form.Label>
-                      <Col sm="8">
-                        <Input
-                          name="startDate"
+                      </Label>
+                      <Col md={9}>
+                        <Control.text
                           type="date"
-                          // innerRef={(input) => (this.startDate = input)}
-                          value={this.state.startDate}
-                          onChange={this.handleInputChange}
+                          model=".startDate"
+                          id="formthem"
+                          name="startDate"
+                          placeholder="Ngày sinh"
+                          className="form-control"
+                          validators={{
+                            required,
+                            minLength: minLength(0),
+                          }}
+                        />
+                        <Errors
+                          className="text-danger"
+                          model=".startDate"
+                          show="touched"
+                          messages={{
+                            required: `Yêu cầu nhập `,
+                            minLength: "Yêu cầu nhập ngày vào công ty",
+                          }}
                         />
                       </Col>
-                    </Form.Group>
-                    <Form.Group
-                      className="row"
-                      controlId="exampleForm.ControlSelect1"
-                      style={{ marginBottom: "10px" }}
-                    >
-                      <Form.Label column sm="4">
+                    </Row>
+                    <Row className="form-group">
+                      <Label htmlFor="department" md={3}>
                         Phòng ban
-                      </Form.Label>
-                      <Col sm="8">
-                        <Input
-                          name="department"
+                      </Label>
+                      <Col md={9}>
+                        <Control.select
                           type="select"
-                          // innerRef={(option) => (this.Department = option)}
-                          value={this.state.department}
-                          onChange={this.handleInputChange}
+                          id="formthem"
+                          model=".departmentS"
+                          name="department"
+                          className="form-control"
+                          validators={{
+                            option,
+                          }}
                         >
+                          <option hidden>--selection</option>
                           <option>Sale</option>
                           <option>HR</option>
                           <option>Marketing</option>
                           <option>IT</option>
                           <option>Finance</option>
-                        </Input>
+                        </Control.select>
+                        <Errors
+                          className="text-danger"
+                          model=".departmentS"
+                          show="touched"
+                          messages={{
+                            option: "Yêu cầu lựa chọn",
+                          }}
+                        />
                       </Col>
-                    </Form.Group>
-                    <Form.Group
-                      className="row"
-                      controlId="formPlaintextPassword"
-                      style={{ marginBottom: "10px" }}
-                    >
-                      <Form.Label column sm="4">
+                    </Row>
+                    <Row className="form-group">
+                      <Label htmlFor="salaryScale" md={3}>
                         Hệ số lương
-                      </Form.Label>
-                      <Col sm="8">
-                        <Input
+                      </Label>
+                      <Col md={9}>
+                        <Control.text
+                          type="number"
+                          model=".salaryScale"
+                          id="formthem"
                           name="salaryScale"
-                          type="text"
-                          placeholder="1"
-                          // innerRef={(input) => (this.salaryScale = input)}
-                          value={this.state.salaryScale}
-                          onChange={this.handleInputChange}
+                          placeholder="Hệ số lương"
+                          className="form-control"
+                          validators={{
+                            required,
+                            isNumber,
+                          }}
+                        />
+                        <Errors
+                          className="text-danger"
+                          model=".salaryScale"
+                          show="touched"
+                          messages={{
+                            required: `Yêu cầu  `,
+                            isNumber: "chọn hệ số lương từ 1 trở lên",
+                          }}
                         />
                       </Col>
-                    </Form.Group>
-
-                    <Form.Group
-                      className="row"
-                      controlId="formPlaintextPassword"
-                      style={{ marginBottom: "10px" }}
-                    >
-                      <Form.Label column sm="4">
+                    </Row>
+                    <Row className="form-group">
+                      <Label htmlFor="annualLeave" md={3}>
                         Số ngày nghỉ còn lại
-                      </Form.Label>
-                      <Col sm="8">
-                        <Input
+                      </Label>
+                      <Col md={9}>
+                        <Control.text
+                          type="number"
+                          model=".annualLeave"
+                          id="formthem"
                           name="annualLeave"
-                          type="text"
-                          placeholder="0"
-                          // innerRef={(input) => (this.annualLeave = input)}
-                          value={this.state.annualLeave}
-                          onChange={this.handleInputChange}
+                          placeholder="Số ngày nghỉ còn lại"
+                          className="form-control"
+                          validators={{
+                            required,
+                            isNumberS,
+                          }}
+                        />
+                        <Errors
+                          className="text-danger"
+                          model=".annualLeave"
+                          show="touched"
+                          messages={{
+                            required: `Yêu cầu nhập `,
+                            isNumberS: "Số ngày nghỉ còn lại từ 0 trở lên",
+                          }}
                         />
                       </Col>
-                    </Form.Group>
-                    <Form.Group
-                      className="row"
-                      controlId="formPlaintextPassword"
-                      style={{ marginBottom: "10px" }}
-                    >
-                      <Form.Label column sm="4">
+                    </Row>
+                    <Row className="form-group">
+                      <Label htmlFor="overTime" md={3}>
                         Số ngày đã làm thêm
-                      </Form.Label>
-                      <Col sm="8">
-                        <Input
+                      </Label>
+                      <Col md={9}>
+                        <Control.text
+                          type="number"
+                          model=".overTime"
+                          id="formthem"
                           name="overTime"
-                          type="text"
-                          placeholder="0"
-                          // innerRef={(input) => (this.overTime = input)}
-                          value={this.state.overTime}
-                          onChange={this.handleInputChange}
+                          placeholder="Số ngày đã làm thêm"
+                          className="form-control"
+                          validators={{
+                            required,
+                            isNumberS,
+                          }}
+                        />
+                        <Errors
+                          className="text-danger"
+                          model=".overTime"
+                          show="touched"
+                          messages={{
+                            required: `Yêu cầu nhập `,
+                            isNumberS: "Số ngày đã làm thêm từ 0 trở lên",
+                          }}
                         />
                       </Col>
-                    </Form.Group>
-                    <Button type="submit" value="submit" color="primary">
-                      Thêm
-                    </Button>
-                  </Form>
+                    </Row>
+                    <Row className="form-group">
+                      <Col md={{ size: 10, offset: 2 }}>
+                        <Button type="submit" color="primary">
+                          Thêm
+                        </Button>
+                      </Col>
+                    </Row>
+                  </LocalForm>
                 </ModalBody>
               </Modal>
             </React.Fragment>
