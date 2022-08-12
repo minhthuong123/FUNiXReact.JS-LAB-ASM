@@ -42,9 +42,7 @@ class Main extends Component {
     super(props);
   }
 
-  // onDishSelect(dishId) {
-  //   this.setState({ selectedDish: dishId });
-  // }
+ 
 
   componentDidMount() {
     this.props.fetchDishes();
