@@ -70,7 +70,7 @@ class DishDetail extends Component {
           <Nav style={{ height: "48px" }}>
             <Button
               outline
-              onClick={() => this.handleOnclick(this.props.dish.id)}
+              onClick={() => this.handleOnclick(this.props.dish)}
             >
               <span className="fa fa-trash-o"></span>
             </Button>

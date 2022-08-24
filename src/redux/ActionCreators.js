@@ -2,10 +2,7 @@ import * as ActionTypes from "./ActionTypes";
 
 import { baseUrl } from "../shared/baseUrl";
 
-export const addstaffs = (staffs) => ({
-  type: ActionTypes.ADD_STAFFSS,
-  payload: { staffs },
-});
+
 
 export const addFeedbackForm =
   (name, doB, salaryScale, startDate, department, annualLeave, overTime) =>
@@ -31,11 +28,11 @@ export const addFeedbackForm =
       credentials: "same-origin",
     })
       .then((response) => response.json())
-      .then((response) => dispatch(addstaffs(response)));
+      .then((staffs) => dispatch(addStaffs(staffs)));
   };
 
 export const fetchStaffs = () => (dispatch) => {
-  // dispatch(staffsLoading(true));
+  dispatch(staffsLoading(true));
   return fetch(baseUrl + "staffs")
     .then((response) => response.json())
     .then((staffs) => dispatch(addStaffs(staffs)));
@@ -96,13 +93,10 @@ export const addStaffsSalary = (staffsSalary) => ({
 });
 
 // XÓA
-export const deletestaffs = (staffs) => ({
-  type: ActionTypes.DELETE_STAFFSS,
-  payload: { staffs },
-});
+
 
 export const deletedstaffs = (deletedStaffs) => (dispatch) => {
-  return fetch(baseUrl + `staffs/${deletedStaffs}`, {
+  return fetch(baseUrl + `staffs/${deletedStaffs.id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -110,5 +104,5 @@ export const deletedstaffs = (deletedStaffs) => (dispatch) => {
     credentials: "same-origin",
   })
     .then((staffs) => staffs.json())
-    .then((staffs) => dispatch(deletestaffs(staffs)));
+    .then((staffs) => dispatch(addStaffs(staffs)));
 };

@@ -18,18 +18,6 @@ export const Staffs = (
 
     case ActionTypes.STAFFS_FAILED:
       return { ...state, isLoading: false, errMess: action.payload };
-
-    case ActionTypes.ADD_STAFFSS:
-      var staffs = action.payload;
-      return {
-        ...state,
-   
-        staffs: state.staffs.concat(staffs),
-      };
-
-    // case ActionTypes.DELETE_STAFFSS:
-    //   var staffs = action.payload;
-    //   return { ...state, staffs: state.staffs.concat(staffs) };
     default:
       return state;
   }

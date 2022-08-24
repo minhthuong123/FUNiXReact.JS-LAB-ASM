@@ -45,7 +45,7 @@ class Menu extends Component {
     );
     //  window.location.reload();
      console.log(values)
-     event.preventDefault();
+    //  event.preventDefault();
   }
   toggleModal() {
     this.setState({
